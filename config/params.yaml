@@ -1,0 +1,31 @@
+autoware_tracker:
+
+  cluster:
+
+    points_node: "/points_raw"
+    output_frame: "velodyne"
+
+    remove_ground: true
+
+    downsample_cloud: true
+    leaf_size: 0.1
+
+    use_multiple_thres: true
+
+    cluster_size_min: 20
+    cluster_size_max: 100000
+    clip_min_height: -2.0
+    clip_max_height: 0.0
+    cluster_merge_threshold: 1.5
+    clustering_distance: 0.75
+    remove_points_min: 2.0
+    remove_points_max: 100.0
+
+    keep_lanes: false
+    keep_lane_left_distance: 5.0
+    keep_lane_right_distance: 5.0
+
+    use_diffnormals: false
+    pose_estimation: true
+
+

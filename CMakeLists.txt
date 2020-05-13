@@ -54,6 +54,7 @@ catkin_package(
     jsk_recognition_msgs
     jsk_rviz_plugins
     message_runtime
+    message_generation
 )
 
 
@@ -75,7 +76,7 @@ add_executable(visualize_detected_objects
     src/detected_objects_visualizer/visualize_detected_objects_main.cpp
     src/detected_objects_visualizer/visualize_detected_objects.cpp
     )
-add_dependencies(visualize_detected_objects ${catkin_EXPORTED_TARGETS})
+add_dependencies(visualize_detected_objects ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_generate_messages_cpp)
 target_link_libraries(visualize_detected_objects ${OpenCV_LIBRARIES} ${EIGEN3_LIBRARIES} ${catkin_LIBRARIES})
 
 
@@ -85,15 +86,16 @@ target_link_libraries(visualize_detected_objects ${OpenCV_LIBRARIES} ${EIGEN3_LI
 add_executable(lidar_euclidean_cluster_detect
     src/lidar_euclidean_cluster_detect/lidar_euclidean_cluster_detect.cpp
     src/lidar_euclidean_cluster_detect/cluster.cpp)
-add_dependencies(lidar_euclidean_cluster_detect ${catkin_EXPORTED_TARGETS} )
+add_dependencies(lidar_euclidean_cluster_detect ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_generate_messages_cpp)
 target_link_libraries(lidar_euclidean_cluster_detect ${OpenCV_LIBRARIES} ${catkin_LIBRARIES})
 
 
 
 add_executable(imm_ukf_pda
-        src/lidar_imm_ukf_pda_track/imm_ukf_pda_main.cpp
-        src/lidar_imm_ukf_pda_track/imm_ukf_pda.cpp
-        src/lidar_imm_ukf_pda_track/ukf.cpp
-        )
+    src/lidar_imm_ukf_pda_track/imm_ukf_pda_main.cpp
+    src/lidar_imm_ukf_pda_track/imm_ukf_pda.h
+    src/lidar_imm_ukf_pda_track/imm_ukf_pda.cpp
+    src/lidar_imm_ukf_pda_track/ukf.cpp
+    )
+add_dependencies(imm_ukf_pda ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_generate_messages_cpp)
 target_link_libraries(imm_ukf_pda ${catkin_LIBRARIES})
-add_dependencies(imm_ukf_pda ${catkin_EXPORTED_TARGETS})

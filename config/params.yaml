@@ -1,31 +1,54 @@
 autoware_tracker:
 
-  cluster:
+    cluster:
 
-    points_node: "/points_raw"
-    output_frame: "velodyne"
+        points_node: "/points_raw"
+        output_frame: "velodyne"
 
-    remove_ground: true
+        remove_ground: true
 
-    downsample_cloud: true
-    leaf_size: 0.1
+        downsample_cloud: true
+        leaf_size: 0.1
 
-    use_multiple_thres: true
+        use_multiple_thres: true
 
-    cluster_size_min: 20
-    cluster_size_max: 100000
-    clip_min_height: -2.0
-    clip_max_height: 0.0
-    cluster_merge_threshold: 1.5
-    clustering_distance: 0.75
-    remove_points_min: 2.0
-    remove_points_max: 100.0
+        cluster_size_min: 20
+        cluster_size_max: 100000
+        clip_min_height: -2.0
+        clip_max_height: 0.0
+        cluster_merge_threshold: 1.5
+        clustering_distance: 0.75
+        remove_points_min: 2.0
+        remove_points_max: 100.0
 
-    keep_lanes: false
-    keep_lane_left_distance: 5.0
-    keep_lane_right_distance: 5.0
+        keep_lanes: false
+        keep_lane_left_distance: 5.0
+        keep_lane_right_distance: 5.0
 
-    use_diffnormals: false
-    pose_estimation: true
+        use_diffnormals: false
+        pose_estimation: true
+
+    tracker:
+
+        gating_thres: 9.22
+        gate_probability: 0.99
+        detection_probability: 0.9
+        life_time_thres: 8
+        static_velocity_thres: 0.5
+        static_num_history_thres: 3
+        prevent_explosion_thres: 1000
+        lane_direction_chi_thres: 2.71
+        nearest_lane_distance_thres: 1.0
+        tracker_input_topic: "/detection/lidar_detector/objects"
+        tracker_output_topic: "/detection/object_tracker/objects"
+        use_sukf: "use_sukf"
+        use_vectormap: false
+
+        tracking_frame: "/world"
+        lane_frame: "/map"
+
+        merge_distance_threshold: 0.5
+
+        namespace: /detection/object_tracker/
 
 

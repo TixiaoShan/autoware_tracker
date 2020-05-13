@@ -20,7 +20,6 @@ find_package(catkin REQUIRED COMPONENTS
     message_generation
 )
 
-
 # Messages
 add_message_files(
     DIRECTORY msg
@@ -59,9 +58,7 @@ catkin_package(
 
 
 find_package(OpenMP)
-
 find_package(OpenCV REQUIRED)
-
 find_package(Eigen3 QUIET)
 
 include_directories(
@@ -70,8 +67,6 @@ include_directories(
     ${OpenCV_INCLUDE_DIRS}
 )
 
-
-
 add_executable(visualize_detected_objects
     src/detected_objects_visualizer/visualize_detected_objects_main.cpp
     src/detected_objects_visualizer/visualize_detected_objects.cpp
@@ -79,17 +74,11 @@ add_executable(visualize_detected_objects
 add_dependencies(visualize_detected_objects ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_generate_messages_cpp)
 target_link_libraries(visualize_detected_objects ${OpenCV_LIBRARIES} ${EIGEN3_LIBRARIES} ${catkin_LIBRARIES})
 
-
-
-
-
 add_executable(lidar_euclidean_cluster_detect
     src/lidar_euclidean_cluster_detect/lidar_euclidean_cluster_detect.cpp
     src/lidar_euclidean_cluster_detect/cluster.cpp)
 add_dependencies(lidar_euclidean_cluster_detect ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_generate_messages_cpp)
 target_link_libraries(lidar_euclidean_cluster_detect ${OpenCV_LIBRARIES} ${catkin_LIBRARIES})
-
-
 
 add_executable(imm_ukf_pda
     src/lidar_imm_ukf_pda_track/imm_ukf_pda_main.cpp

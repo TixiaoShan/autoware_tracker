@@ -1,6 +1,6 @@
 # Readme
 
-Barebone package for point cloud object tracking used in Autoware. The package is only tested in Ubuntu 16.04 and ROS Kinetic.
+Barebone package for point cloud object tracking used in Autoware. The package is only tested in Ubuntu 16.04 and ROS Kinetic. No deep learning is used.
 
 # Install JSK
 ```
@@ -35,3 +35,7 @@ Play the sample ros bag:
 ```
 rosbag play sample_moriyama_150324.bag
 ```
+
+<p align='center'>
+    <img src="/launch/demo.gif" alt="drawing" width="800"/>
+</p>

@@ -22,29 +22,29 @@ ImmUkfPda::ImmUkfPda()
   ,  // assign unique ukf_id_ to each tracking targets
   init_(false),
   frame_count_(0),
-  has_subscribed_vectormap_(false),
-  private_nh_("~")
+  has_subscribed_vectormap_(false)
+  // private_nh_("~")
 {
-  private_nh_.param<std::string>("tracking_frame", tracking_frame_, "world");
-  private_nh_.param<int>("life_time_thres", life_time_thres_, 8);
-  private_nh_.param<double>("gating_thres", gating_thres_, 9.22);
-  private_nh_.param<double>("gate_probability", gate_probability_, 0.99);
-  private_nh_.param<double>("detection_probability", detection_probability_, 0.9);
-  private_nh_.param<double>("static_velocity_thres", static_velocity_thres_, 0.5);
-  private_nh_.param<int>("static_velocity_history_thres", static_num_history_thres_, 3);
-  private_nh_.param<double>("prevent_explosion_thres", prevent_explosion_thres_, 1000);
-  private_nh_.param<double>("merge_distance_threshold", merge_distance_threshold_, 0.5);
-  private_nh_.param<bool>("use_sukf", use_sukf_, false);
+  private_nh_.param<std::string>("autoware_tracker/tracker/tracking_frame", tracking_frame_, "world");
+  private_nh_.param<int>("autoware_tracker/tracker/life_time_thres", life_time_thres_, 8);
+  private_nh_.param<double>("autoware_tracker/tracker/gating_thres", gating_thres_, 9.22);
+  private_nh_.param<double>("autoware_tracker/tracker/gate_probability", gate_probability_, 0.99);
+  private_nh_.param<double>("autoware_tracker/tracker/detection_probability", detection_probability_, 0.9);
+  private_nh_.param<double>("autoware_tracker/tracker/static_velocity_thres", static_velocity_thres_, 0.5);
+  private_nh_.param<int>("autoware_tracker/tracker/static_velocity_history_thres", static_num_history_thres_, 3);
+  private_nh_.param<double>("autoware_tracker/tracker/prevent_explosion_thres", prevent_explosion_thres_, 1000);
+  private_nh_.param<double>("autoware_tracker/tracker/merge_distance_threshold", merge_distance_threshold_, 0.5);
+  private_nh_.param<bool>("autoware_tracker/tracker/use_sukf", use_sukf_, false);
 
   // for vectormap assisted tracking
-  private_nh_.param<bool>("use_vectormap", use_vectormap_, false);
-  private_nh_.param<double>("lane_direction_chi_thres", lane_direction_chi_thres_, 2.71);
-  private_nh_.param<double>("nearest_lane_distance_thres", nearest_lane_distance_thres_, 1.0);
-  private_nh_.param<std::string>("vectormap_frame", vectormap_frame_, "map");
+  private_nh_.param<bool>("autoware_tracker/tracker/use_vectormap", use_vectormap_, false);
+  private_nh_.param<double>("autoware_tracker/tracker/lane_direction_chi_thres", lane_direction_chi_thres_, 2.71);
+  private_nh_.param<double>("autoware_tracker/tracker/nearest_lane_distance_thres", nearest_lane_distance_thres_, 1.0);
+  private_nh_.param<std::string>("autoware_tracker/tracker/vectormap_frame", vectormap_frame_, "map");
 
   // rosparam for benchmark
-  private_nh_.param<bool>("is_benchmark", is_benchmark_, false);
-  private_nh_.param<std::string>("kitti_data_dir", kitti_data_dir_, "");
+  private_nh_.param<bool>("autoware_tracker/tracker/is_benchmark", is_benchmark_, false);
+  private_nh_.param<std::string>("autoware_tracker/tracker/kitti_data_dir", kitti_data_dir_, "");
   if (is_benchmark_)
   {
     result_file_path_ = kitti_data_dir_ + "benchmark_results.txt";
@@ -54,8 +54,8 @@ ImmUkfPda::ImmUkfPda()
 
 void ImmUkfPda::run()
 {
-  pub_object_array_ = node_handle_.advertise<autoware_tracker::DetectedObjectArray>("/detection/objects", 1);
-  sub_detected_array_ = node_handle_.subscribe("/detection/lidar_detector/objects", 1, &ImmUkfPda::callback, this);
+  pub_object_array_ = node_handle_.advertise<autoware_tracker::DetectedObjectArray>("autoware_tracker/tracker/objects", 1);
+  sub_detected_array_ = node_handle_.subscribe("autoware_tracker/cluster/objects", 1, &ImmUkfPda::callback, this);
 
   if (use_vectormap_)
   {

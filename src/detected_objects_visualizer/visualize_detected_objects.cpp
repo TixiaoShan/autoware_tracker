@@ -21,23 +21,8 @@
 
 VisualizeDetectedObjects::VisualizeDetectedObjects() : arrow_height_(0.5), label_height_(1.0)
 {
-  ros::NodeHandle private_nh_("~");
+  ros::NodeHandle private_nh_;//("~");
   
-  ros_namespace_ = ros::this_node::getNamespace();
-
-  if (ros_namespace_.substr(0, 2) == "//")
-  {
-    ros_namespace_.erase(ros_namespace_.begin());
-  }
-
-  std::string markers_out_topic = ros_namespace_ + "/objects_markers";
-
-  std::string object_src_topic;
-  private_nh_.param<std::string>("objects_src_topic", object_src_topic, "/objects");
-  object_src_topic = ros_namespace_ + object_src_topic;
-
-  ROS_INFO("[%s] objects_src_topic: %s", __APP_NAME__, object_src_topic.c_str());
-
   private_nh_.param<double>("object_speed_threshold", object_speed_threshold_, 0.1);
   ROS_INFO("[%s] object_speed_threshold: %.2f", __APP_NAME__, object_speed_threshold_);
 
@@ -72,11 +57,9 @@ VisualizeDetectedObjects::VisualizeDetectedObjects() : arrow_height_(0.5), label
   centroid_color_ = ParseColor(color);
   ROS_INFO("[%s] centroid_color: %s", __APP_NAME__, ColorToString(centroid_color_).c_str());
 
-  subscriber_detected_objects_ = node_handle_.subscribe(object_src_topic, 1, &VisualizeDetectedObjects::DetectedObjectsCallback, this);
-  ROS_INFO("[%s] object_src_topic: %s", __APP_NAME__, object_src_topic.c_str());
+  subscriber_detected_objects_ = node_handle_.subscribe("autoware_tracker/tracker/objects", 1, &VisualizeDetectedObjects::DetectedObjectsCallback, this);
 
-  publisher_markers_ = node_handle_.advertise<visualization_msgs::MarkerArray>(markers_out_topic, 1);
-  ROS_INFO("[%s] markers_out_topic: %s", __APP_NAME__, markers_out_topic.c_str());
+  publisher_markers_ = node_handle_.advertise<visualization_msgs::MarkerArray>("autoware_tracker/visualizer/objects", 1);
 
 }
 
@@ -176,7 +159,7 @@ VisualizeDetectedObjects::ObjectsToCentroids(const autoware_tracker::DetectedObj
       centroid_marker.type = visualization_msgs::Marker::SPHERE;
       centroid_marker.action = visualization_msgs::Marker::ADD;
       centroid_marker.pose = object.pose;
-      centroid_marker.ns = ros_namespace_ + "/centroid_markers";
+      centroid_marker.ns = "centroid_markers";
 
       centroid_marker.scale.x = 0.5;
       centroid_marker.scale.y = 0.5;
@@ -214,7 +197,7 @@ VisualizeDetectedObjects::ObjectsToBoxes(const autoware_tracker::DetectedObjectA
       box.header = in_objects.header;
       box.type = visualization_msgs::Marker::CUBE;
       box.action = visualization_msgs::Marker::ADD;
-      box.ns = ros_namespace_ + "/box_markers";
+      box.ns = "box_markers";
       box.id = marker_id_++;
       box.scale = object.dimensions;
       box.pose.position = object.pose.position;
@@ -254,7 +237,7 @@ VisualizeDetectedObjects::ObjectsToModels(const autoware_tracker::DetectedObject
       model.header = in_objects.header;
       model.type = visualization_msgs::Marker::MESH_RESOURCE;
       model.action = visualization_msgs::Marker::ADD;
-      model.ns = ros_namespace_ + "/model_markers";
+      model.ns = "model_markers";
       model.mesh_use_embedded_materials = false;
       model.color = model_color_;
       if(object.label == "car")
@@ -311,7 +294,7 @@ VisualizeDetectedObjects::ObjectsToHulls(const autoware_tracker::DetectedObjectA
       hull.header = in_objects.header;
       hull.type = visualization_msgs::Marker::LINE_STRIP;
       hull.action = visualization_msgs::Marker::ADD;
-      hull.ns = ros_namespace_ + "/hull_markers";
+      hull.ns = "hull_markers";
       hull.id = marker_id_++;
       hull.scale.x = 0.2;
 
@@ -380,7 +363,7 @@ VisualizeDetectedObjects::ObjectsToArrows(const autoware_tracker::DetectedObject
         obs_mat.getRotation(q_tf);
 
         arrow_marker.header = in_objects.header;
-        arrow_marker.ns = ros_namespace_ + "/arrow_markers";
+        arrow_marker.ns = "arrow_markers";
         arrow_marker.action = visualization_msgs::Marker::ADD;
         arrow_marker.type = visualization_msgs::Marker::ARROW;
 
@@ -429,7 +412,7 @@ VisualizeDetectedObjects::ObjectsToLabels(const autoware_tracker::DetectedObject
 
       label_marker.lifetime = ros::Duration(marker_display_duration_);
       label_marker.header = in_objects.header;
-      label_marker.ns = ros_namespace_ + "/label_markers";
+      label_marker.ns = "label_markers";
       label_marker.action = visualization_msgs::Marker::ADD;
       label_marker.type = visualization_msgs::Marker::TEXT_VIEW_FACING;
       label_marker.scale.x = 1.5;

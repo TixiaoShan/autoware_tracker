@@ -863,9 +863,9 @@ int main(int argc, char **argv)
   _pub_ground_cloud = nh.advertise<sensor_msgs::PointCloud2>("autoware_tracker/cluster/points_ground", 1);
   _centroid_pub = nh.advertise<autoware_tracker::Centroids>("autoware_tracker/cluster/cluster_centroids", 1);
 
-  _pub_points_lanes_cloud = nh.advertise<sensor_msgs::PointCloud2>("/points_lanes", 1);
-  _pub_clusters_message = nh.advertise<autoware_tracker::CloudClusterArray>("/detection/lidar_detector/cloud_clusters", 1);
-  _pub_detected_objects = nh.advertise<autoware_tracker::DetectedObjectArray>("/detection/lidar_detector/objects", 1);
+  _pub_points_lanes_cloud = nh.advertise<sensor_msgs::PointCloud2>("autoware_tracker/cluster/points_lanes", 1);
+  _pub_clusters_message = nh.advertise<autoware_tracker::CloudClusterArray>("autoware_tracker/cluster/cloud_clusters", 1);
+  _pub_detected_objects = nh.advertise<autoware_tracker::DetectedObjectArray>("autoware_tracker/cluster/objects", 1);
 
   std::string points_topic = "/points_raw";
   if (nh.getParam("autoware_tracker/cluster/points_node", points_topic))

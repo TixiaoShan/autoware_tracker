@@ -37,18 +37,10 @@ autoware_tracker:
         static_velocity_thres: 0.5
         static_num_history_thres: 3
         prevent_explosion_thres: 1000
-        lane_direction_chi_thres: 2.71
-        nearest_lane_distance_thres: 1.0
-        tracker_input_topic: "/detection/lidar_detector/objects"
-        tracker_output_topic: "/detection/object_tracker/objects"
-        use_sukf: "use_sukf"
-        use_vectormap: false
+        merge_distance_threshold: 0.5
+        use_sukf: false
 
         tracking_frame: "/world"
-        lane_frame: "/map"
-
-        merge_distance_threshold: 0.5
-
-        namespace: /detection/object_tracker/
+        # namespace: /detection/object_tracker/
 
 

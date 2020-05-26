@@ -39,7 +39,7 @@ generate_messages(
 )
 
 catkin_package(
-    INCLUDE_DIRS include
+    #INCLUDE_DIRS include
     CATKIN_DEPENDS
     tf
     pcl_ros

@@ -62,7 +62,7 @@ find_package(OpenCV REQUIRED)
 find_package(Eigen3 QUIET)
 
 include_directories(
-    include
+    #include
     ${catkin_INCLUDE_DIRS}
     ${OpenCV_INCLUDE_DIRS}
 )
